@@ -1,0 +1,68 @@
+body {
+    background-image: url("./images/hauntedhouse1.jpg");
+    background-repeat: repeat-x;
+    background-attachment: fixed;
+    background-size: auto;
+    background-position: center center;
+    align-items: center;
+    text-align: center;
+    margin: 0; 
+    padding: 0;
+  }
+  
+  #main {
+    text-align: center; 
+    padding: 0;
+    position: absolute;
+    width: 100%; 
+    height: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+  }
+  
+  #stage {
+    position: relative; 
+    width: 1000px; 
+    height: 700px;
+    margin-bottom: 1rem;
+    background-color: rgba(0, 0, 0, 0.363); 
+    display: flex;
+    justify-content: space-between; 
+    border-radius: 30px;
+  }
+  
+  h1 {
+    font-size: 50px;
+    transition: transform 1s ease-in-out;
+    position: absolute; 
+  }
+  
+  #ghost {
+    cursor: grab;
+    filter: blur(1px);
+  }
+  
+  #skull {
+    display: none;
+  }
+  
+  #score {
+    font-family: "Emilys Candy", cursive;
+    font-size: 60px;
+    text-shadow: 0 0 9px #FF0000, 0 0 50px #61065c;
+    position: relative; 
+    top: 0;
+    right: 24rem;
+    margin: 0; 
+    padding: 0;
+    z-index: 1; 
+  }
+  
+  #div-score {
+    position: relative;
+    margin: 1rem 1rem 0 3rem;
+  }
+  
+  
