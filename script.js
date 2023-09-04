@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const skull = document.getElementById("skull");
   const scoreElement = document.getElementById("score");
   const oou = document.getElementById("oou");
+  const scream = document.getElementById("scream");
+
   let lastGhostPosition = { x: 0, y: 0 };
   let score = 0;
 
@@ -28,10 +30,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     skull.style.transform = `translate(${lastGhostPosition.x}px, ${lastGhostPosition.y}px)`;
 
+    const screamDelay = Math.floor(Math.random() * 20);
+
     if (score < 50) {
       score++;
       scoreElement.textContent = `Score: ${score}`;
     }
+    console.log(screamDelay)
+
+    if (score === screamDelay && score > 5){
+      scream.play();
+      console.log("now !!!")
+    };
 
     oou.play();
 
