@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const skull = document.getElementById("skull");
   const scoreElement = document.getElementById("score");
   const oou = document.getElementById("oou");
-//   const soundThemeAudio = document.getElementById("soundtheme");
   let lastGhostPosition = { x: 0, y: 0 };
   let score = 0;
 
