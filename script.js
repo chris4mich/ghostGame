@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const oou = document.getElementById("oou");
   const scream = document.getElementById("scream");
   const scaryFace = document.getElementById("scary-face");
+  const theme = document.getElementById("theme");
 
   let screamDelay = generateScreamDelay();
   let lastGhostPosition = { x: 0, y: 0 };
@@ -30,19 +31,24 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function handleScreamEvent() {
+    theme.pause();
+    theme.currentTime = 0;
     scream.play();
     scaryFace.style.display = "block";
     setTimeout(() => {
       scaryFace.style.display = "none";
+      score = 0;
+      scoreElement.textContent = `Score: ${score}`;
     }, 800);
-    score = 0;
+    setTimeout(() => {
+      theme.play();
+    }, 3500);
     screamDelay = generateScreamDelay();
   }
 
   function disappearOnClick() {
     ghost.style.display = "none";
     skull.style.display = "block";
-
     skull.style.transform = `translate(${lastGhostPosition.x}px, ${lastGhostPosition.y}px)`;
 
     if (score < 50) {
