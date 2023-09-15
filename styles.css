@@ -40,11 +40,13 @@ h1 {
 }
 
 #ghost {
+  user-select: none;
   cursor: grab;
   filter: blur(1px);
 }
 
 #skull {
+  user-select: none;
   display: none;
 }
 
