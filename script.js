@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let previousLevelScore =0;
   let score = 0;
   let ghostMovementSpeed = 1500;
+  let movementSpeedRemovable = 100;
 
   const rangeX = stage.clientWidth - ghost.clientWidth;
   const rangeY = stage.clientHeight - ghost.clientHeight;
@@ -18,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function setGhostMovementSpeed() {
     if(score-previousLevelScore===10) {
       previousLevelScore = score;
-      ghostMovementSpeed-=50;
+      ghostMovementSpeed-=movementSpeedRemovable;
     }
   }
 
