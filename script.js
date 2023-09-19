@@ -7,11 +7,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const scream = document.getElementById("scream");
 
   let lastGhostPosition = { x: 0, y: 0 };
+  let previousLevelScore =0;
   let score = 0;
+  let ghostMovementSpeed = 1500;
 
   const rangeX = stage.clientWidth - ghost.clientWidth;
   const rangeY = stage.clientHeight - ghost.clientHeight;
   
+
+  function setGhostMovementSpeed() {
+    if(score-previousLevelScore===10) {
+      previousLevelScore = score;
+      ghostMovementSpeed-=50;
+    }
+  }
 
   function moveghostRandomly() {
     const maxX = rangeX;
@@ -51,9 +60,14 @@ document.addEventListener("DOMContentLoaded", function () {
       moveghostRandomly();
     }, 1000);
   }
+  setGhostMovementSpeed();
+
   ghost.addEventListener("click", disappearOnClick);
 
-  setInterval(moveghostRandomly, 900);
+  setInterval(function () {
+    moveghostRandomly();
+    setGhostMovementSpeed();
+  }, ghostMovementSpeed); 
 
   moveghostRandomly();
 });
