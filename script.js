@@ -9,11 +9,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const scaryFace = document.getElementById("scary-face");
   const theme = document.getElementById("theme");
   const darkness = document.getElementById("darkness");
+  const startScreen = document.getElementById("start-screen");
+  const startBtn = document.getElementById("start-btn");
+  const main = document.getElementById("main");
 
   let screamDelay = generateScreamDelay();
   let lastGhostPosition = { x: 0, y: 0 };
   let score = 0;
   let musicStarted = false;
+
+  let moveIntervalId = null;
 
   function startMusic() {
     if (musicStarted) return;
@@ -23,9 +28,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  document.addEventListener("pointerdown", startMusic, { once: true });
+  function startGame() {
+    startScreen.style.display = "none";
+    main.style.display = "flex";
+    startMusic();
+    applyDifficulty();
+    moveghostRandomly();
+  }
 
-  let moveIntervalId = null;
+  startBtn.addEventListener("pointerdown", function (e) {
+    e.stopPropagation();
+    startGame();
+  });
 
   function generateScreamDelay() {
     return Math.floor(Math.random() * 15) + 6;
@@ -65,6 +79,22 @@ document.addEventListener("DOMContentLoaded", function () {
     lastGhostPosition = { x: randomX, y: randomY };
   }
 
+  function returnToStartScreen() {
+    clearInterval(moveIntervalId);
+    moveIntervalId = null;
+    ghostWrapper.style.display = "none";
+    skull.style.display = "none";
+    main.style.display = "none";
+    darkness.style.opacity = "0";
+    score = 0;
+    scoreElement.textContent = `Score: ${score}`;
+    musicStarted = false;
+    theme.pause();
+    theme.currentTime = 0;
+    screamDelay = generateScreamDelay();
+    startScreen.style.display = "flex";
+  }
+
   function handleScreamEvent() {
     theme.pause();
     theme.currentTime = 0;
@@ -72,19 +102,12 @@ document.addEventListener("DOMContentLoaded", function () {
     scaryFace.style.display = "block";
     setTimeout(() => {
       scaryFace.style.display = "none";
-      score = 0;
-      scoreElement.textContent = `Score: ${score}`;
-      darkness.style.opacity = "0";
-      applyDifficulty();
+      returnToStartScreen();
     }, 800);
-    setTimeout(() => {
-      theme.play().catch(() => {});
-    }, 3500);
     screamDelay = generateScreamDelay();
   }
 
   function disappearOnClick() {
-    startMusic(); // start music on first tap/click if not already playing
     ghostWrapper.style.display = "none";
     skull.style.display = "block";
     skull.style.left = lastGhostPosition.x + "px";
@@ -113,7 +136,4 @@ document.addEventListener("DOMContentLoaded", function () {
     e.stopPropagation();
     disappearOnClick();
   });
-
-  applyDifficulty();
-  moveghostRandomly();
 });
