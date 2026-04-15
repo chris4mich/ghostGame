@@ -20,26 +20,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let moveIntervalId = null;
 
-  function startMusic() {
-    if (musicStarted) return;
-    musicStarted = true;
-    theme.play().catch(() => {
-      musicStarted = false;
-    });
-  }
-
   function startGame() {
     startScreen.style.display = "none";
     main.style.display = "flex";
-    startMusic();
+    // Unlock oou & scream on iOS: play+pause inside this user gesture
+    [oou, scream].forEach((a) => {
+      a.play().catch(() => {});
+      a.pause();
+      a.currentTime = 0;
+    });
+    theme.loop = true;
+    if (!musicStarted) {
+      musicStarted = true;
+      theme.play().catch(() => {
+        musicStarted = false;
+      });
+    }
     applyDifficulty();
     moveghostRandomly();
   }
 
-  startBtn.addEventListener("pointerdown", function (e) {
-    e.stopPropagation();
-    startGame();
-  });
+  function addTapListener(el, handler) {
+    el.addEventListener(
+      "touchstart",
+      function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        handler();
+      },
+      { passive: false },
+    );
+    el.addEventListener("click", function (e) {
+      e.stopPropagation();
+      handler();
+    });
+  }
+
+  addTapListener(startBtn, startGame);
 
   function generateScreamDelay() {
     return Math.floor(Math.random() * 15) + 6;
@@ -131,9 +148,5 @@ document.addEventListener("DOMContentLoaded", function () {
       moveghostRandomly();
     }, 1000);
   }
-  // Single pointer-based handler covers mouse and touch without double-firing
-  ghost.addEventListener("pointerdown", function (e) {
-    e.stopPropagation();
-    disappearOnClick();
-  });
+  addTapListener(ghost, disappearOnClick);
 });
